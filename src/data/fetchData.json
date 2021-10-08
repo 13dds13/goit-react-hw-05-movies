@@ -1,0 +1,16 @@
+{
+  "baseURL": "https://api.themoviedb.org/3",
+  "api_key": "1af58353604eeab7a20272c3aa0e3e6e",
+  "searchType": {
+    "trending": "/trending/movie/week",
+    "searchByKeyword": "/search/movie",
+    "movieDetails": "/movie/",
+    "cast": "/credits",
+    "reviews": "/reviews"
+  },
+  "searchOptions": {
+    "language": "en-US",
+    "page": 1,
+    "include_adult": "false"
+  }
+}
