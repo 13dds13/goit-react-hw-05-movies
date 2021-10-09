@@ -1,13 +1,48 @@
 import fetchData from "../../data/fetchData.json";
 
-const searchParams = (type = "trending", query) => {
-  const { baseURL, api_key } = fetchData;
-  const searchType = fetchData.searchType[type];
+export const searchParamsTrendingMovies = () => {
+  const {
+    baseURL,
+    api_key,
+    searchType: { trending },
+  } = fetchData;
+
+  const searchParams = new URLSearchParams({
+    api_key,
+  });
+
+  return `${baseURL}${trending}?${searchParams}`;
+};
+
+export const searchParamsWithKeyword = (query) => {
+  const {
+    baseURL,
+    api_key,
+    searchType: { searchByKeyword },
+    searchOptions,
+  } = fetchData;
+
   const searchParams = new URLSearchParams({
     api_key,
     query,
+    ...searchOptions,
   });
-  return `${baseURL}${searchType}?${searchParams}`;
+
+  return `${baseURL}${searchByKeyword}?${searchParams}`;
 };
 
-export default searchParams;
+export const searchParamsWithId = (id) => {
+  const {
+    baseURL,
+    api_key,
+    searchType: { movieDetails },
+  } = fetchData;
+
+  const preparedSearchType = movieDetails + id;
+
+  const searchParams = new URLSearchParams({
+    api_key,
+  });
+
+  return `${baseURL}${preparedSearchType}?${searchParams}`;
+};

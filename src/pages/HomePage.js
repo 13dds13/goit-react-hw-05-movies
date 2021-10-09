@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import MoviesList from "../components/movieList/MoviesList";
 import fetchMovieData from "../services/fetchMovieData/fetchMovieData";
-import searchParams from "../services/searchParams/searchParams";
+import { searchParamsTrendingMovies } from "../services/searchParams/searchParams";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     try {
-      fetchMovieData(searchParams()).then((res) => setMovies(res.results));
+      fetchMovieData(searchParamsTrendingMovies()).then((res) =>
+        setMovies(res.results)
+      );
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  return (
-    <ul>
-      {movies.map(({ title }, ind) => (
-        <li key={ind}>{title}</li>
-      ))}
-    </ul>
-  );
+  return !!movies.length && <MoviesList movies={movies} />;
 };
 
 export default HomePage;

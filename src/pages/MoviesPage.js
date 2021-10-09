@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import MoviesList from "../components/movieList/MoviesList";
 import Notification from "../components/notification/Notification";
 import SearchForm from "../components/searchForm/SearchForm";
 import fetchMovieData from "../services/fetchMovieData/fetchMovieData";
-import searchParams from "../services/searchParams/searchParams";
-
-const SEARCH_TYPE = "searchByKeyword";
+import { searchParamsWithKeyword } from "../services/searchParams/searchParams";
 
 const MoviesPage = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
+  const [query, setQuery] = useState("");
+  const { location } = useHistory();
 
-  const addMovies = async (query) => {
+  console.log("movie page");
+
+  useEffect(() => {
+    const URLsearch = location.search;
+    if (!URLsearch) return;
+    const query = URLsearch?.split("=")[1];
+    setQuery(query);
+
     if (!query) {
       setErrorMsg("Enter something ;)");
       searchResult.length && setSearchResult([]);
@@ -19,22 +27,23 @@ const MoviesPage = () => {
     }
     try {
       errorMsg && setErrorMsg("");
-      const dataForFetch = searchParams(SEARCH_TYPE, query);
-      const { results } = await fetchMovieData(dataForFetch);
-      if (!results.length) {
-        setErrorMsg("Invalid request. Try something else.");
-        searchResult.length && setSearchResult([]);
-        return;
-      }
-      setSearchResult(results);
+      const dataForFetch = searchParamsWithKeyword(query);
+      fetchMovieData(dataForFetch).then(({ results }) => {
+        if (!results.length) {
+          setErrorMsg("Invalid request. Try something else.");
+          searchResult.length && setSearchResult([]);
+          return;
+        }
+        setSearchResult(results);
+      });
     } catch (error) {
       setErrorMsg("Ooops, something went wrong!");
     }
-  };
+  }, [location.search, searchResult.length, errorMsg]);
 
   return (
     <>
-      <SearchForm addMovies={addMovies} />
+      <SearchForm queryURL={query} />
       <Notification errorMsg={errorMsg} />
       {!!searchResult.length && <MoviesList movies={searchResult} />}
     </>

@@ -1,21 +1,23 @@
 import { lazy } from "react";
 
 export const routesForMovieDetailsPage = {
-  generalMovieDetails: {
-    name: "Movie details",
-    path: "/movies/:movieId",
-    exact: true,
-    component: lazy(() =>
-      import(
-        "../pages/MovieDetailesPage" /* webpackChunkName: "MovieDetailesPage" */
-      )
-    ),
-  },
+  generalMovieDetails: [
+    {
+      name: "Movie details",
+      path: "/movies/:movieId",
+      exact: false,
+      component: lazy(() =>
+        import(
+          "../pages/MovieDetailesPage" /* webpackChunkName: "MovieDetailesPage" */
+        )
+      ),
+    },
+  ],
 
   additionalMovieInfo: [
     {
       name: "Cast",
-      path: "/movies/:cast",
+      path: "/movies/:movieId/cast",
       exact: true,
       component: lazy(() =>
         import(
@@ -26,7 +28,7 @@ export const routesForMovieDetailsPage = {
 
     {
       name: "Reviews",
-      path: "/movies/:reviews",
+      path: "/movies/:movieId/reviews",
       exact: true,
       component: lazy(() =>
         import(
