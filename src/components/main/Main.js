@@ -1,8 +1,9 @@
 import React from "react";
 import { routesForMovieDetailsPage } from "../../routes/routesForMovieDetailsPage";
 import RoutesList from "../routesList/RoutesList";
+import PropTypes from "prop-types";
 
-const Header = ({ routes }) => {
+const Main = ({ routes }) => {
   return (
     <>
       <RoutesList routes={routes} />
@@ -11,4 +12,8 @@ const Header = ({ routes }) => {
   );
 };
 
-export default Header;
+Main.propTypes = {
+  routes: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default Main;

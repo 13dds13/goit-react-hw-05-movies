@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const SearchForm = ({ handleSubmit }) => {
   const [inputQuery, setInputQuery] = useState("");
@@ -28,6 +29,10 @@ const SearchForm = ({ handleSubmit }) => {
       </form>
     </>
   );
+};
+
+SearchForm.propTypes = {
+  handleSubmit: PropTypes.func,
 };
 
 export default SearchForm;

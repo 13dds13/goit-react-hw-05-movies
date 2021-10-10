@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { mainRoutes } from "../../routes/mainRoutes";
+import PropTypes from "prop-types";
 
 const MoviesList = ({ movies }) => {
   return (
@@ -12,6 +13,15 @@ const MoviesList = ({ movies }) => {
       ))}
     </ul>
   );
+};
+
+MoviesList.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      id: PropTypes.number,
+    })
+  ),
 };
 
 export default MoviesList;

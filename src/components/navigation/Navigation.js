@@ -1,13 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import { container, list, item, activeItem } from "./Navigation.module.css";
 
 const Navigation = ({ routes, match = "" }) => {
   return (
-    <nav>
-      <ul>
+    <nav className={container}>
+      <ul className={list}>
         {routes.map(({ name, path, exact }) => (
           <li key={path}>
-            <NavLink to={match + path} exact={exact}>
+            <NavLink
+              to={match + path}
+              exact={exact}
+              className={item}
+              activeClassName={activeItem}
+            >
               {name}
             </NavLink>
           </li>
@@ -15,6 +22,17 @@ const Navigation = ({ routes, match = "" }) => {
       </ul>
     </nav>
   );
+};
+
+Navigation.propTypes = {
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      path: PropTypes.string,
+      exact: PropTypes.bool,
+    })
+  ),
+  match: PropTypes.string,
 };
 
 export default Navigation;

@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const RoutesList = ({ routes, match = "" }) => {
   return (
@@ -16,6 +17,17 @@ const RoutesList = ({ routes, match = "" }) => {
       </Switch>
     </Suspense>
   );
+};
+
+RoutesList.propTypes = {
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      exact: PropTypes.bool,
+      component: PropTypes.object,
+    })
+  ),
+  match: PropTypes.string,
 };
 
 export default RoutesList;

@@ -1,0 +1,22 @@
+.container {
+  height: 60px;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+}
+
+.item {
+  font-weight: 700;
+  color: #000000;
+  text-decoration: none;
+}
+
+.item:last-child {
+  margin-left: 16px;
+}
+
+.activeItem {
+  color: rgb(194, 23, 23);
+}
