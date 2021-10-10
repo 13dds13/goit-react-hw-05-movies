@@ -1,6 +1,8 @@
 {
   "baseURL": "https://api.themoviedb.org/3",
   "api_key": "1af58353604eeab7a20272c3aa0e3e6e",
+  "imgURL": "https://image.tmdb.org/t/p/w500",
+  "imgPlug": "https://cdn.pixabay.com/photo/2016/08/07/15/34/do-not-take-photos-1576438_960_720.png",
   "searchType": {
     "trending": "/trending/movie/week",
     "searchByKeyword": "/search/movie",

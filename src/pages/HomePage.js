@@ -4,7 +4,7 @@ import fetchMovieData from "../services/fetchMovieData/fetchMovieData";
 import { searchParamsTrendingMovies } from "../services/searchParams/searchParams";
 
 const HomePage = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(null);
 
   useEffect(() => {
     try {
@@ -16,7 +16,7 @@ const HomePage = () => {
     }
   }, []);
 
-  return !!movies.length && <MoviesList movies={movies} />;
+  return movies && <MoviesList movies={movies} />;
 };
 
 export default HomePage;

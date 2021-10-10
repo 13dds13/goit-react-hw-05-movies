@@ -17,22 +17,20 @@ export const routesForMovieDetailsPage = {
   additionalMovieInfo: [
     {
       name: "Cast",
-      path: "/movies/:movieId/cast",
+      path: "/cast",
       exact: true,
       component: lazy(() =>
-        import(
-          "../components/movieData/cast/Cast" /* webpackChunkName: "Cast" */
-        )
+        import("../components/cast/Cast" /* webpackChunkName: "Cast" */)
       ),
     },
 
     {
       name: "Reviews",
-      path: "/movies/:movieId/reviews",
+      path: "/reviews",
       exact: true,
       component: lazy(() =>
         import(
-          "../components/movieData/reviews/Reviews" /* webpackChunkName: "Reviews" */
+          "../components/reviews/Reviews" /* webpackChunkName: "Reviews" */
         )
       ),
     },

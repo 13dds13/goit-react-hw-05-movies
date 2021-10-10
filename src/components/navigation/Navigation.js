@@ -1,17 +1,19 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Navigation = ({ routes }) => {
+const Navigation = ({ routes, match = "" }) => {
   return (
-    <ul>
-      {routes.map(({ name, path, exact }) => (
-        <li key={path}>
-          <NavLink to={path} exact={exact}>
-            {name}
-          </NavLink>
-        </li>
-      ))}
-    </ul>
+    <nav>
+      <ul>
+        {routes.map(({ name, path, exact }) => (
+          <li key={path}>
+            <NavLink to={match + path} exact={exact}>
+              {name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
 

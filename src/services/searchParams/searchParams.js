@@ -46,3 +46,19 @@ export const searchParamsWithId = (id) => {
 
   return `${baseURL}${preparedSearchType}?${searchParams}`;
 };
+
+export const searchParamsForAdditionalInfo = (id, infoType) => {
+  const {
+    baseURL,
+    api_key,
+    searchType,
+    searchType: { movieDetails },
+  } = fetchData;
+
+  const preparedSearchType = movieDetails + id + searchType[infoType];
+
+  const searchParams = new URLSearchParams({
+    api_key,
+  });
+  return `${baseURL}${preparedSearchType}?${searchParams}`;
+};

@@ -1,0 +1,6 @@
+{
+  "emptyInput": "Enter something ;)",
+  "invalidRequest": "Invalid request. Try something else.",
+  "noDataToShow": "Sorry, no information to show :(",
+  "fatalError": "Ooops, something went wrong!"
+}

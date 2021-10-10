@@ -1,51 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import MoviesList from "../components/movieList/MoviesList";
 import Notification from "../components/notification/Notification";
 import SearchForm from "../components/searchForm/SearchForm";
 import fetchMovieData from "../services/fetchMovieData/fetchMovieData";
 import { searchParamsWithKeyword } from "../services/searchParams/searchParams";
+import { emptyInput, fatalError, invalidRequest } from "../data/messages.json";
 
 const MoviesPage = () => {
-  const [searchResult, setSearchResult] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
   const [query, setQuery] = useState("");
-  const { location } = useHistory();
-
-  console.log("movie page");
+  const [searchResult, setSearchResult] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
-    const URLsearch = location.search;
-    if (!URLsearch) return;
-    const query = URLsearch?.split("=")[1];
-    setQuery(query);
+    const { search } = history.location;
+    const initQuery = search.split("=")[1];
+    setQuery(initQuery);
+  }, [history.location]);
 
-    if (!query) {
-      setErrorMsg("Enter something ;)");
-      searchResult.length && setSearchResult([]);
+  useEffect(() => {
+    if (!query) return;
+
+    const dataForFetch = searchParamsWithKeyword(query);
+
+    fetchMovieData(dataForFetch)
+      .then(({ results }) => setSearchResult(results))
+      .catch(() => setErrorMsg(fatalError))
+      .finally(() => setErrorMsg(""));
+  }, [query]);
+
+  useEffect(() => {
+    if (!searchResult) {
+      setErrorMsg(emptyInput);
       return;
     }
-    try {
-      errorMsg && setErrorMsg("");
-      const dataForFetch = searchParamsWithKeyword(query);
-      fetchMovieData(dataForFetch).then(({ results }) => {
-        if (!results.length) {
-          setErrorMsg("Invalid request. Try something else.");
-          searchResult.length && setSearchResult([]);
-          return;
-        }
-        setSearchResult(results);
-      });
-    } catch (error) {
-      setErrorMsg("Ooops, something went wrong!");
+    if (searchResult) {
+      !searchResult.length && setErrorMsg(invalidRequest);
     }
-  }, [location.search, searchResult.length, errorMsg]);
+  }, [searchResult]);
+
+  const handleSubmit = (inputQuery) => {
+    if (!inputQuery) {
+      setErrorMsg(emptyInput);
+      return;
+    }
+    setQuery(inputQuery);
+    history.push(`${url}?query=${inputQuery}`);
+  };
 
   return (
     <>
-      <SearchForm queryURL={query} />
-      <Notification errorMsg={errorMsg} />
-      {!!searchResult.length && <MoviesList movies={searchResult} />}
+      <SearchForm handleSubmit={handleSubmit} />
+      <Notification msg={errorMsg} />
+      {!errorMsg && searchResult && <MoviesList movies={searchResult} />}
     </>
   );
 };
