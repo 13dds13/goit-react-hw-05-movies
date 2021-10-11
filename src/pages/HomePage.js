@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 import MoviesList from "../components/movieList/MoviesList";
 import fetchMovieData from "../services/fetchMovieData/fetchMovieData";
 import { searchParamsTrendingMovies } from "../services/searchParams/searchParams";
 
 const HomePage = () => {
   const [movies, setMovies] = useState(null);
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     try {
@@ -16,7 +19,7 @@ const HomePage = () => {
     }
   }, []);
 
-  return movies && <MoviesList movies={movies} />;
+  return movies && <MoviesList movies={movies} goBack={pathname} />;
 };
 
 export default HomePage;

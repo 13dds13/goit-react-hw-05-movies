@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router";
 
-const GoBackBtn = () => {
+const GoBackBtn = ({ goTo }) => {
   const history = useHistory();
 
   const onClick = () => {
-    history.goBack();
+    history.push(goTo);
   };
   return <button onClick={onClick}>go back</button>;
 };

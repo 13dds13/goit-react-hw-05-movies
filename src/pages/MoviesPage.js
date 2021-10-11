@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch, useLocation } from "react-router-dom";
 import MoviesList from "../components/movieList/MoviesList";
 import Notification from "../components/notification/Notification";
 import SearchForm from "../components/searchForm/SearchForm";
@@ -11,14 +11,14 @@ const MoviesPage = () => {
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const { search, pathname } = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    const { search } = history.location;
     const initQuery = search.split("=")[1];
     setQuery(initQuery);
-  }, [history.location]);
+  }, [search]);
 
   useEffect(() => {
     if (!query) return;
@@ -54,7 +54,9 @@ const MoviesPage = () => {
     <>
       <SearchForm handleSubmit={handleSubmit} />
       <Notification msg={errorMsg} />
-      {!errorMsg && searchResult && <MoviesList movies={searchResult} />}
+      {!errorMsg && searchResult && (
+        <MoviesList movies={searchResult} goBack={pathname + search} />
+      )}
     </>
   );
 };

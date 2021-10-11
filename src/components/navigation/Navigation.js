@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import { container, list, item, activeItem } from "./Navigation.module.css";
 
-const Navigation = ({ routes, match = "" }) => {
+const Navigation = ({ routes, match = "", goBack }) => {
   return (
     <nav className={container}>
       <ul className={list}>
         {routes.map(({ name, path, exact }) => (
           <li key={path}>
             <NavLink
-              to={match + path}
+              to={{ pathname: match + path, state: { from: goBack } }}
               exact={exact}
               className={item}
               activeClassName={activeItem}
